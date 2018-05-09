@@ -12,14 +12,25 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /root/
 ENV ACESTREAM_VERSION acestream_3.1.16_ubuntu_16.04_x86_64
 ENV ACESTREAM_SHA256 452bccb8ae8b5ff4497bbb796081dcf3fec2b699ba9ce704107556a3d6ad2ad7
+COPY ${ACESTREAM_VERSION}.tar.gz ./acestream.tar.gz
 RUN set -ex && \
-  apt-get update && apt-get install -y wget && rm -rf /var/lib/apt/lists/* && \
-  wget -O acestream.tar.gz "http://dl.acestream.org/linux/${ACESTREAM_VERSION}.tar.gz" && \
-  apt-get purge -y --auto-remove wget && \
   echo "${ACESTREAM_SHA256} acestream.tar.gz" | sha256sum -c - && \
   tar zxf acestream.tar.gz && rm acestream.tar.gz && \
   mv ${ACESTREAM_VERSION} acestream
 
+# Install acestream configuration.
+COPY .ACEStream ./.ACEStream
+
+# RUN set -ex && \
+#   apt-get update && apt-get install -y wget && rm -rf /var/lib/apt/lists/* && \
+#   wget -O acestream.tar.gz "http://dl.acestream.org/linux/${ACESTREAM_VERSION}.tar.gz" && \
+#   apt-get purge -y --auto-remove wget && \
+#   echo "${ACESTREAM_SHA256} acestream.tar.gz" | sha256sum -c - && \
+#   tar zxf acestream.tar.gz && rm acestream.tar.gz && \
+#   mv ${ACESTREAM_VERSION} acestream
+
 # Start the acestream-engine in console mode, exposing HTTP API port.
 EXPOSE 6878
+# For torrent announce server:
+# EXPOSE 8621
 CMD acestream/start-engine --client-console --service-remote-access
