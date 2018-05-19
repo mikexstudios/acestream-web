@@ -1,0 +1,12 @@
+{
+  "total_max_upload_rate": 0,
+  "download_dir": "/root/.ACEStream/.acestream_cache",
+  "total_max_download_rate": 0,
+  "max_download_rate": 1678.053632020428,
+  "disk_cache_limit": 10737418240,
+  "ad_storage_limit": 1073741824,
+  "max_connects": 150,
+  "max_peers": 100,
+  "allow_remote_access": true,
+  "live_buffer_time": 30
+}
